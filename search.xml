@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>并发编程作业</title>
+      <link href="/2023/09/06/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BD%9C%E4%B8%9A/"/>
+      <url>/2023/09/06/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BD%9C%E4%B8%9A/</url>
+      
+        <content type="html"><![CDATA[<h2 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h2><ol><li>NEW 创建</li><li>RUNNABLE 运行</li><li>WAITING 等待</li><li>TIMED_WAITING 超时等待</li><li>BLOCKED 阻塞</li><li>TERMINATED 结束<blockquote><p>线程通过new Thread()创建出来后，就是创建状态。当调用start()方法后进入运行状态。调用wait()方法就会进入无时限等待状态，再调用notify()&#x2F;notifyAll()方法即可再回到运行状态。调用sleep()方法，传入时长参数就进入到有限时的等待状态，当到达时间后转为运行状态。run方法中执行到添加了synchronized关键字的代码块，抢占不到锁就进入到阻塞状态，获得到锁后就会继续运行。当run方法中的代码执行完成后就进入销毁结束状态。</p></blockquote></li></ol><h2 id="多线程demo"><a href="#多线程demo" class="headerlink" title="多线程demo"></a>多线程demo</h2>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 作业 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>并发编程</title>
       <link href="/2023/08/31/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
       <url>/2023/08/31/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</url>
