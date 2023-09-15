@@ -42,21 +42,20 @@ document.addEventListener('visibilitychange', function () {
 
 
 
-    <meta name="description" content="redis是什么？为什么快？ 基于缓存的Nosql数据库，K,V结构  单线程   常见数据类型 String：缓存、token过期时间、计数相关的  Hash：分布式锁  List：有序并可重复的列表。时间线场景  Set：无序，元素不可重复，会覆盖。对并集、交集、差集的操作适用于抽奖、共同好友  Zset：有序不可重复，排行榜  BitMap：位图，适用于浏览过xx的场景   redis如何实">
+    <meta name="description" content="redis是什么？为什么快？ 基于缓存的Nosql数据库，K,V结构  单线程   redis-server -v 查询redis版本 常见数据类型 String：缓存、token过期时间、计数相关的  Hash：分布式锁  List：有序并可重复的列表。时间线场景  Set：无序，元素不可重复，会覆盖。对并集、交集、差集的操作适用于抽奖、共同好友  Zset：有序不可重复，排行榜  BitMap">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis">
 <meta property="og:url" content="http://example.com/2023/09/11/redis/index.html">
 <meta property="og:site_name" content="naynayniQAQ">
-<meta property="og:description" content="redis是什么？为什么快？ 基于缓存的Nosql数据库，K,V结构  单线程   常见数据类型 String：缓存、token过期时间、计数相关的  Hash：分布式锁  List：有序并可重复的列表。时间线场景  Set：无序，元素不可重复，会覆盖。对并集、交集、差集的操作适用于抽奖、共同好友  Zset：有序不可重复，排行榜  BitMap：位图，适用于浏览过xx的场景   redis如何实">
+<meta property="og:description" content="redis是什么？为什么快？ 基于缓存的Nosql数据库，K,V结构  单线程   redis-server -v 查询redis版本 常见数据类型 String：缓存、token过期时间、计数相关的  Hash：分布式锁  List：有序并可重复的列表。时间线场景  Set：无序，元素不可重复，会覆盖。对并集、交集、差集的操作适用于抽奖、共同好友  Zset：有序不可重复，排行榜  BitMap">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://github.com/naynayniQAQ/MyImages/blob/main/Redis.png?raw=true">
+<meta property="og:image" content="https://github.com/naynayniQAQ/MyImages/blob/main/Redis.jpg?raw=true">
 <meta property="article:published_time" content="2023-09-11T15:03:01.601Z">
-<meta property="article:modified_time" content="2023-09-13T08:03:37.415Z">
+<meta property="article:modified_time" content="2023-09-15T12:49:00.208Z">
 <meta property="article:author" content="naynayniQAQ">
 <meta property="article:tag" content="学习">
-<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/naynayniQAQ/MyImages/blob/main/Redis.png?raw=true">
+<meta name="twitter:image" content="https://github.com/naynayniQAQ/MyImages/blob/main/Redis.jpg?raw=true">
 
 
 <link rel="canonical" href="http://example.com/2023/09/11/redis/">
@@ -174,7 +173,7 @@ document.addEventListener('visibilitychange', function () {
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%AB%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">redis是什么？为什么快？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">常见数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">redis如何实现分布式锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%81%E5%A4%B1%E6%95%88%EF%BC%8C%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%E5%88%B0%E4%BA%86%EF%BC%8C%E4%BD%86%E6%98%AF%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%E8%BF%98%E6%B2%A1%E6%89%A7%E8%A1%8C%E5%AE%8C%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">锁失效，过期时间到了，但是业务代码还没执行完，怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E6%95%B4%E4%BD%93%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">Redis整体的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E5%A6%82%E4%BD%95%E6%89%A9%E5%AE%B9%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">redis如何扩容？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%AE%B9%E6%97%B6%E6%95%B0%E6%8D%AE%E6%80%8E%E4%B9%88%E8%BF%81%E7%A7%BB%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">扩容时数据怎么迁移？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84value%E6%80%8E%E4%B9%88%E5%AD%98%E5%82%A8%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">不同数据类型的value怎么存储？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5"><span class="nav-number">9.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="nav-number">10.</span> <span class="nav-text">淘汰策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E7%AD%96%E7%95%A5"><span class="nav-number">11.</span> <span class="nav-text">持久化策略</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%AB%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">redis是什么？为什么快？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">常见数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">redis如何实现分布式锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%81%E5%A4%B1%E6%95%88%EF%BC%8C%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%E5%88%B0%E4%BA%86%EF%BC%8C%E4%BD%86%E6%98%AF%E4%B8%9A%E5%8A%A1%E4%BB%A3%E7%A0%81%E8%BF%98%E6%B2%A1%E6%89%A7%E8%A1%8C%E5%AE%8C%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">锁失效，过期时间到了，但是业务代码还没执行完，怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E6%95%B4%E4%BD%93%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text">Redis整体的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis%E5%A6%82%E4%BD%95%E6%89%A9%E5%AE%B9%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">redis如何扩容？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%AE%B9%E6%97%B6%E6%95%B0%E6%8D%AE%E6%80%8E%E4%B9%88%E8%BF%81%E7%A7%BB%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">扩容时数据怎么迁移？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84value%E6%80%8E%E4%B9%88%E5%AD%98%E5%82%A8%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">不同数据类型的value怎么存储？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5"><span class="nav-number">9.</span> <span class="nav-text">过期策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="nav-number">10.</span> <span class="nav-text">淘汰策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E7%AD%96%E7%95%A5"><span class="nav-number">11.</span> <span class="nav-text">持久化策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4"><span class="nav-number">12.</span> <span class="nav-text">集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="nav-number">13.</span> <span class="nav-text">数据丢失的场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81redis%E5%92%8Cdb%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%EF%BC%9F"><span class="nav-number">14.</span> <span class="nav-text">如何保证redis和db数据一致？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%9A%84%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98"><span class="nav-number">15.</span> <span class="nav-text">缓存的三大问题</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -189,18 +188,18 @@ document.addEventListener('visibilitychange', function () {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -263,7 +262,7 @@ document.addEventListener('visibilitychange', function () {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-13 16:03:37" itemprop="dateModified" datetime="2023-09-13T16:03:37+08:00">2023-09-13</time>
+      <time title="修改时间：2023-09-15 20:49:00" itemprop="dateModified" datetime="2023-09-15T20:49:00+08:00">2023-09-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -271,7 +270,7 @@ document.addEventListener('visibilitychange', function () {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+          <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
         </span>
     </span>
 
@@ -289,14 +288,14 @@ document.addEventListener('visibilitychange', function () {
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.4k</span>
+      <span>2.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -312,6 +311,7 @@ document.addEventListener('visibilitychange', function () {
 <li><p>单线程</p>
 </li>
 </ul>
+<p>redis-server -v 查询redis版本</p>
 <h3 id="常见数据类型"><a href="#常见数据类型" class="headerlink" title="常见数据类型"></a>常见数据类型</h3><ul>
 <li><p>String：缓存、token过期时间、计数相关的</p>
 </li>
@@ -329,7 +329,7 @@ document.addEventListener('visibilitychange', function () {
 <h3 id="redis如何实现分布式锁？"><a href="#redis如何实现分布式锁？" class="headerlink" title="redis如何实现分布式锁？"></a>redis如何实现分布式锁？</h3><h3 id="锁失效，过期时间到了，但是业务代码还没执行完，怎么办？"><a href="#锁失效，过期时间到了，但是业务代码还没执行完，怎么办？" class="headerlink" title="锁失效，过期时间到了，但是业务代码还没执行完，怎么办？"></a>锁失效，过期时间到了，但是业务代码还没执行完，怎么办？</h3><ul>
 <li>看门狗机制，判断当先线程是否存在，释放时间&#x3D;-1，给其设置过期时间，通过轮询不断地进行自旋判断，直到线程释放锁。</li>
 </ul>
-<h3 id="Redis整体的数据结构"><a href="#Redis整体的数据结构" class="headerlink" title="Redis整体的数据结构"></a>Redis整体的数据结构</h3><p><img src="https://github.com/naynayniQAQ/MyImages/blob/main/Redis.png?raw=true"></p>
+<h3 id="Redis整体的数据结构"><a href="#Redis整体的数据结构" class="headerlink" title="Redis整体的数据结构"></a>Redis整体的数据结构</h3><p><img src="https://github.com/naynayniQAQ/MyImages/blob/main/Redis.jpg?raw=true"></p>
 <h3 id="redis如何扩容？"><a href="#redis如何扩容？" class="headerlink" title="redis如何扩容？"></a>redis如何扩容？</h3><p>扩容的条件：</p>
 <ol>
 <li><p>没有子进程在做持久化，并且ht[0].used&gt;&#x3D;ht[0].size*1</p>
@@ -422,10 +422,152 @@ document.addEventListener('visibilitychange', function () {
 </ol>
 <h3 id="持久化策略"><a href="#持久化策略" class="headerlink" title="持久化策略"></a>持久化策略</h3><ol>
 <li><p>RDB快照</p>
+<ul>
+<li><p>自动触发</p>
+<ul>
+<li><p>配置文件，save 900 1  900秒检查一次，如果有key更改则触发RDB</p>
 </li>
-<li><p>AOF：追加的方式</p>
+<li><p>关闭服务shutdown</p>
+</li>
+<li><p>flushAll 清空数据会触发创建一个空的RDB文件</p>
+</li>
+</ul>
+</li>
+<li><p>手动触发</p>
+<ul>
+<li><p>save</p>
+</li>
+<li><p>bgsave</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>AOF：Append Only File 追加文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly no <span class="comment">//默认关闭</span></span><br></pre></td></tr></table></figure>
+
+<p>AOF 持久性记录服务器接收到的每个写操作。然后可以在服务器启动时再次重播这些操作，从而重建原始数据集。命令使用与 Redis 协议本身相同的格式进行记录。</p>
+<ul>
+<li><p>问题一：每次执行指令都要和磁盘进行IO交互吗？可配置如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">appendfsync always <span class="comment">//每次新命令都会附加到 AOF 中</span></span><br><span class="line">appendfsync everysec <span class="comment">//每一秒，可能会丢失一秒的数据</span></span><br><span class="line">appendfsync no  <span class="comment">//不会添加到AOF</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>问题二：AOF会不停追加指令，文件会变得越来越大，加载数据就会变慢，如何解决？</p>
+<p>重写机制：将大文件变小，将AOF存储为RDB文件，什么时候重写？配置如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto-aof-rewrite-percentage <span class="number">100</span> <span class="comment">//下一次重写为上一次大小的2倍</span></span><br><span class="line">auto-aof-rewrite-min-size 64mb  <span class="comment">//AOF文件大小达到64M</span></span><br></pre></td></tr></table></figure>
+
+<p>例如：64mb的AOF文件重写后变成40mb，则当文件从40mb变成80mb时就会触发重写</p>
+</li>
+</ul>
+<p>优点</p>
+<ul>
+<li><p>安全性高</p>
+</li>
+<li><p>可读性高</p>
+</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li><p>恢复慢</p>
+</li>
+<li><p>重写时需要和磁盘二次IO</p>
+</li>
+</ul>
 </li>
 <li><p>RDB+AOF结合</p>
+</li>
+</ol>
+<h3 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h3><ol>
+<li><p>主从</p>
+<ul>
+<li><p>为什么要有主从？</p>
+<ul>
+<li><p>基于主从故障恢复（不能自动恢复）</p>
+</li>
+<li><p>负载（主写重读）减少主库的压力</p>
+</li>
+<li><p>高可用</p>
+</li>
+</ul>
+</li>
+<li><p>主从数据如何保持一致？</p>
+<ul>
+<li><p>全量同步</p>
+<p>从库第一次和主库连接，发送同步数据的指令（携带master、repid、offset、serverCron）主库判断repid是空的或者和自己的不相同，就知道该从库是和自己进行第一次连接，执行bgsave指令生成RDB文件传给从库。包括offset偏移量和repid。</p>
+</li>
+<li><p>增量同步（从库网络波动断开重连）</p>
+<p>从库发送数据同步指令，主库比较repid和offset，然后在replication__backlog_buffer积压缓存区同步数据。如果积压缓存没有数据，则全量同步。</p>
+</li>
+</ul>
+</li>
+<li><p>主从刚切换可能会导致数据丢失</p>
+<p>主从同步是异步的，如果从库还没将主库的数据同步成功，主库挂了，那数据就丢失了。</p>
+</li>
+</ul>
+</li>
+<li><p>哨兵Sentinle</p>
+<ul>
+<li><p>作用</p>
+<ul>
+<li><p>监控和通知</p>
+</li>
+<li><p>自动故障转移</p>
+</li>
+<li><p>提供配置</p>
+</li>
+</ul>
+</li>
+<li><p>如何做到自动故障转移？</p>
+<ul>
+<li><p>发现故障</p>
+<p>监听sentinle和master是否连通，如果发现master挂了，标记SDown（主观下线）；</p>
+<p>询问其他sentinle，结果一样就标记为ODown（客观下线）</p>
+</li>
+<li><p>故障转移</p>
+<p>选举一个sentinle触发</p>
+<p>选举哪一个slave为新的master</p>
+<ol>
+<li><p>断开连接超过一定时间的去除资格</p>
+</li>
+<li><p>可以设置优先级</p>
+</li>
+<li><p>根据偏移量最新的优先</p>
+</li>
+<li><p>唯一的runid</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>脑裂问题</p>
+<p>出现两台maser，当恢复之后数据会丢失。</p>
+<ul>
+<li><p>如何解决</p>
+<p>配置文件：写数据时判断主节点必须有多少个从节点</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Cluster</p>
+<p>数据分片。前面主从和哨兵都没有分片功能。高可用情况下使用。至少三主三从。</p>
+</li>
+</ol>
+<h3 id="数据丢失的场景"><a href="#数据丢失的场景" class="headerlink" title="数据丢失的场景"></a>数据丢失的场景</h3><ol>
+<li><p>持久化</p>
+</li>
+<li><p>淘汰策略</p>
+</li>
+<li><p>主从切换</p>
+</li>
+<li><p>脑裂</p>
+</li>
+</ol>
+<h3 id="如何保证redis和db数据一致？"><a href="#如何保证redis和db数据一致？" class="headerlink" title="如何保证redis和db数据一致？"></a>如何保证redis和db数据一致？</h3><h3 id="缓存的三大问题"><a href="#缓存的三大问题" class="headerlink" title="缓存的三大问题"></a>缓存的三大问题</h3><ol>
+<li><p>雪崩：redis挂了或者是大量的key过期导致所有的请求都会直接去数据库查询。</p>
+</li>
+<li><p>穿透：恶意攻击，数据在redis和数据库都不存在，每次都会去数据库查询。</p>
+</li>
+<li><p>击穿：单个key过期被大量请求，直接去数据库查询。</p>
 </li>
 </ol>
 
@@ -438,15 +580,14 @@ document.addEventListener('visibilitychange', function () {
     <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
-              <a href="/tags/redis/" rel="tag"># redis</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2023/09/06/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BD%9C%E4%B8%9A/" rel="prev" title="并发编程作业">
-                  <i class="fa fa-angle-left"></i> 并发编程作业
+                <a href="/2023/09/06/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%BD%9C%E4%B8%9A/" rel="prev" title="线程/锁等">
+                  <i class="fa fa-angle-left"></i> 线程/锁等
                 </a>
             </div>
             <div class="post-nav-item">
@@ -481,13 +622,13 @@ document.addEventListener('visibilitychange', function () {
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">11k</span>
+    <span title="站点总字数">15k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10 分钟</span>
+    <span title="站点阅读时长">14 分钟</span>
   </span>
 </div>
 <div class="busuanzi-count">
