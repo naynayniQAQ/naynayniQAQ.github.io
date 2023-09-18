@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Mysql</title>
+      <link href="/2023/09/18/Mysql/"/>
+      <url>/2023/09/18/Mysql/</url>
+      
+        <content type="html"><![CDATA[<h3 id="事务的四大特性"><a href="#事务的四大特性" class="headerlink" title="事务的四大特性"></a>事务的四大特性</h3><ol><li>原子性  Atomicty</li><li>一致性  Consistency</li><li>隔离性  Isolation</li><li>持久性  Durability</li></ol><h3 id="并发环境中事务引发的三个问题"><a href="#并发环境中事务引发的三个问题" class="headerlink" title="并发环境中事务引发的三个问题"></a>并发环境中事务引发的三个问题</h3><ol><li><p>脏读：一个事务读取到另外一个事务未提交的数据；</p></li><li><p>不可重复读：一个事务读取到另外一个事务未提交的数据，然后另外一个事务提交事务后两次结果不一致；</p></li><li><p>幻读：一个事务按照条件查询数据时，没有对应的数据行，但是在插入数据时，又发现这行数据 已经存在，好像出现了 “幻影”。</p><p><img src="/images/%E5%B9%BB%E8%AF%BB.jpg" alt="幻读"></p></li></ol><h3 id="事务的隔离性"><a href="#事务的隔离性" class="headerlink" title="事务的隔离性"></a>事务的隔离性</h3><table><thead><tr><th align="left"></th><th align="center">脏读</th><th align="center">不可重复读</th><th align="center">幻读</th></tr></thead><tbody><tr><td align="left">读未提交：READ-UNCOMMITTED</td><td align="center">❎</td><td align="center">❎</td><td align="center">❎</td></tr><tr><td align="left">读已提交：READ-COMMITTED</td><td align="center">✅</td><td align="center">❎</td><td align="center">❎</td></tr><tr><td align="left">可重复读：REPEATABLE-READ</td><td align="center">✅</td><td align="center">✅</td><td align="center">❎</td></tr><tr><td align="left">串行化：SERIALIZABLE</td><td align="center">✅</td><td align="center">✅</td><td align="center">✅</td></tr></tbody></table><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> @<span class="variable">@transaction_isolation</span>;<span class="comment">-- 查询当前事务的隔离性</span></span><br><span class="line"><span class="keyword">set</span> SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;<span class="comment">-- 设置会话的隔离级别</span></span><br><span class="line"><span class="keyword">SET</span> [ SESSION <span class="operator">|</span> <span class="keyword">GLOBAL</span> ] TRANSACTION ISOLATION LEVEL &#123; READ UNCOMMITTED <span class="operator">|</span> READ COMMITTED <span class="operator">|</span> REPEATABLE READ <span class="operator">|</span> SERIALIZABLE &#125;</span><br></pre></td></tr></table></figure><h3 id="Mysql的体系结构图"><a href="#Mysql的体系结构图" class="headerlink" title="Mysql的体系结构图"></a>Mysql的体系结构图</h3><p><img src="/images/Mysql%E7%BB%93%E6%9E%84.jpg" alt="Mysql结构"></p><h3 id="引擎层"><a href="#引擎层" class="headerlink" title="引擎层"></a><strong>引擎层</strong></h3><ul><li>可以理解为是表的类型，它是可插拔的。默认是InnoDB.</li><li><pre><code class="sql"></code></pre></li></ul><p>SHOW ENGINES;– 查看支持的引擎</p><h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a><strong>InnoDB</strong></h3><ul><li>支持行锁、外键、事务。</li><li>（以后再补吧，未完待续。。。）</li></ul><h3 id="索引的数据结构"><a href="#索引的数据结构" class="headerlink" title="索引的数据结构"></a><strong>索引的数据结构</strong></h3><ul><li>二叉树</li><li>B树</li><li>B+树 ✅</li></ul><h5 id="为什么要使用B-树而不是用其他树？"><a href="#为什么要使用B-树而不是用其他树？" class="headerlink" title="为什么要使用B+树而不是用其他树？"></a><strong>为什么要使用B+树而不是用其他树？</strong></h5><blockquote><p>作答未完待续。。。</p></blockquote><h3 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h3><ul><li>聚集索引<ul><li>主键索引</li></ul></li><li>非聚集索引（二级索引）<ul><li>普通索引</li><li>唯一索引</li><li>全文索引</li></ul></li></ul><blockquote><p>聚集索引将数据和索引放到一起，索引结构的叶子节点保存行数据；</p><p>聚集索引选取规则：主键索引→唯一索引→rowid</p></blockquote><h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><ol><li>查看执行频次</li><li>慢日志查询</li><li>profiles</li><li>explain关键字</li></ol><blockquote><p>前三种是基于sql执行时间去评判性能。</p></blockquote><h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><ol><li>最左前缀法则（不满足时）</li><li>范围查询：age&gt;18不走索引，age≥18走索引？</li><li>索引有列运算：subStirng(name,2)&#x3D;’yy’</li><li>Like模糊查询：%在前失效，同理like&#x3D;’%yy%’也会失效</li><li>or：</li><li>数据分不影响：如果全表扫描时间&gt;走索引时间，则不走索引，is not null也是根据数据分布来决定走不走索引</li></ol><ul><li>覆盖索引</li><li>回表查询</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Dubbo</title>
       <link href="/2023/09/17/Dubbo/"/>
       <url>/2023/09/17/Dubbo/</url>
@@ -158,7 +183,7 @@
       <link href="/2023/08/18/Spring/"/>
       <url>/2023/08/18/Spring/</url>
       
-        <content type="html"><![CDATA[<h3 id="Spring是什么？"><a href="#Spring是什么？" class="headerlink" title="Spring是什么？"></a>Spring是什么？</h3><p>Spring是一个轻量级的Java开源框架。</p>]]></content>
+        <content type="html"><![CDATA[<h3 id="Spring是什么？"><a href="#Spring是什么？" class="headerlink" title="Spring是什么？"></a>Spring是什么？</h3><p>Spring是一个轻量级的Java开源框架。它是很多模块的集合，使用这些模块可以很方便地协助我们进行开发，比如说 Spring 支持 IoC（Inversion of Control:控制反转） 和 AOP(Aspect-Oriented Programming:面向切面编程)、可以很方便地对数据库进行访问、可以很方便地集成第三方组件（电子邮件，任务，调度，缓存等等）、对单元测试支持比较好、支持 RESTful Java 应用程序的开发。 </p>]]></content>
       
       
       <categories>
