@@ -51,7 +51,7 @@ document.addEventListener('visibilitychange', function () {
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://github.com/naynayniQAQ/MyImages/blob/main/Redis.jpg?raw=true">
 <meta property="article:published_time" content="2023-09-11T15:03:01.601Z">
-<meta property="article:modified_time" content="2023-09-18T01:43:44.460Z">
+<meta property="article:modified_time" content="2023-09-18T02:30:52.179Z">
 <meta property="article:author" content="naynayniQAQ">
 <meta property="article:tag" content="学习">
 <meta name="twitter:card" content="summary">
@@ -262,7 +262,7 @@ document.addEventListener('visibilitychange', function () {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-09-18 09:43:44" itemprop="dateModified" datetime="2023-09-18T09:43:44+08:00">2023-09-18</time>
+      <time title="修改时间：2023-09-18 10:30:52" itemprop="dateModified" datetime="2023-09-18T10:30:52+08:00">2023-09-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -395,20 +395,16 @@ document.addEventListener('visibilitychange', function () {
 AOF 持久性记录服务器接收到的每个写操作。然后可以在服务器启动时再次重播这些操作，从而重建原始数据集。命令使用与 Redis 协议本身相同的格式进行记录。  <ul>
 <li><p>问题一：每次执行指令都要和磁盘进行IO交互吗？可配置如下    </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">appendfsync always <span class="comment">//每次新命令都会附加到 AOF 中</span></span><br><span class="line">appendfsync everysec <span class="comment">//每一秒，可能会丢失一秒的数据</span></span><br><span class="line">appendfsync no  <span class="comment">//不会添加到AOF</span></span><br></pre></td></tr></table></figure>
-
-
 </li>
 <li><p>问题二：AOF会不停追加指令，文件会变得越来越大，加载数据就会变慢，如何解决？<br>重写机制：将大文件变小，将AOF存储为RDB文件，什么时候重写？配置如下</p>
 </li>
 </ul>
 </li>
 </ol>
-<pre><code class="java">   auto-aof-rewrite-percentage 100 //下一次重写为上一次大小的2倍
-   auto-aof-rewrite-min-size 64mb  //AOF文件大小达到64M
-</code></pre>
-<p>  例如：64mb的AOF文件重写后变成40mb，则当文件从40mb变成80mb时就会触发重写<br>   优点  </p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto-aof-rewrite-percentage <span class="number">100</span> <span class="comment">//下一次重写为上一次大小的2倍</span></span><br><span class="line">auto-aof-rewrite-min-size 64mb  <span class="comment">//AOF文件大小达到64M</span></span><br></pre></td></tr></table></figure>
+<p>  例如：64mb的AOF文件重写后变成40mb，则当文件从40mb变成80mb时就会触发重写<br>   优点 </p>
 <ul>
-<li>安全性高  </li>
+<li>安全性高 </li>
 <li>可读性高</li>
 </ul>
 <p>   缺点  </p>
@@ -420,7 +416,8 @@ AOF 持久性记录服务器接收到的每个写操作。然后可以在服务�
 <li>RDB+AOF结合</li>
 </ol>
 <h3 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h3><ol>
-<li>主从   <ul>
+<li><p>主从   </p>
+<ul>
 <li>为什么要有主从？    <ul>
 <li>基于主从故障恢复（不能自动恢复）    </li>
 <li>负载（主写重读）减少主库的压力    </li>
@@ -435,14 +432,17 @@ AOF 持久性记录服务器接收到的每个写操作。然后可以在服务�
 <li>主从刚切换可能会导致数据丢失<br>主从同步是异步的，如果从库还没将主库的数据同步成功，主库挂了，那数据就丢失了。</li>
 </ul>
 </li>
-<li>哨兵Sentinle  <ul>
-<li>作用   <ul>
+<li><p>哨兵Sentinle  </p>
+<ul>
+<li><p>作用   </p>
+<ul>
 <li>监控和通知：sentinle会不断检查master和slave，Sentinle充当Redis客户端的服务发现来源，当集群发生故障转移时，会将最新信息推送给Redis客户端。    </li>
 <li>自动故障转移：如果master故障，sentinle会将一个slave提升为master。当故障实例恢复后也以新的master为主。     </li>
 <li>提供配置</li>
 </ul>
 </li>
-<li>如何做到自动故障转移？    <ul>
+<li><p>如何做到自动故障转移？    </p>
+<ul>
 <li><p>发现故障（服务状态的监控：基于心跳机制检测服务的状态，每隔一秒向集群的每个实例发送ping命令） </p>
 <p><strong>主观下线</strong>：如果某sentinle节点发现某实力未在规定的时间内响应，则认为该实例主观下线；<br><strong>客观下线</strong>：若超过指定数量（quorum）的sentinle都认为该实例主观下线，则该实例客观下线。quorum值在配置文件配置最好超过sentinle实力数量的一半。    </p>
 </li>
@@ -454,22 +454,25 @@ AOF 持久性记录服务器接收到的每个写操作。然后可以在服务�
 <li>唯一的runid，越小优先级越高</li>
 </ol>
 </li>
-<li><p>故障转移       </p>
+<li><p>故障转移</p>
+<p>先选举出一个sentinel（一般为先发现主节点宕机的哨兵，由它来给从节点发送指令）       </p>
 <ol>
-<li>sentinle发送slaveof no one，让改节点成为master       </li>
+<li>sentinle发送slaveof no one，让该节点成为master       </li>
 <li>sentinle广播通知其他slave，开始从新的master同步数据       </li>
 <li>将故障节点标记为slave</li>
 </ol>
 </li>
 </ul>
 </li>
-<li>脑裂问题<br>出现两台maser，当恢复之后数据会丢失。     <ul>
+<li><p>脑裂问题<br>出现两台maser，当恢复之后数据会丢失。     </p>
+<ul>
 <li>如何解决<br>配置文件：写数据时判断主节点必须有多少个从节点</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Cluster<br>数据分片。前面主从和哨兵都没有分片功能。高可用情况下使用。至少三主三从。</li>
+<li><p>Cluster<br>数据分片。前面主从和哨兵都没有分片功能。高可用情况下使用。至少三主三从。</p>
+</li>
 </ol>
 <h3 id="数据丢失的场景"><a href="#数据丢失的场景" class="headerlink" title="数据丢失的场景"></a>数据丢失的场景</h3><ol>
 <li>持久化</li>
