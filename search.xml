@@ -152,6 +152,33 @@
     
     
     <entry>
+      <title>Spring</title>
+      <link href="/2023/08/18/Spring/"/>
+      <url>/2023/08/18/Spring/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Spring是什么？"><a href="#Spring是什么？" class="headerlink" title="Spring是什么？"></a>Spring是什么？</h3><p>Spring是一个轻量级的Java开源框架。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Spring </category>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Docker</title>
       <link href="/2023/08/18/Docker/"/>
       <url>/2023/08/18/Docker/</url>
