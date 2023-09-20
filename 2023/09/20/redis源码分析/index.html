@@ -42,23 +42,30 @@ document.addEventListener('visibilitychange', function () {
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="naynayniQAQ">
-<meta property="og:url" content="http://example.com/tags/%E5%AD%A6%E4%B9%A0/index.html">
+    <meta name="description" content="SetCommand 上图就是执行set 命令在RedisServer中调用的一些主要方法。首先进入到SetCommand函数之后，会先进行一些解析参数的流程，把参数存到变量（expire,unit,flags）中。其中flags 使用二进制位数来存储多个参数的标记。然后把这些变量作为SetGenericCommand方法的参数。通过lookupKeyWrite方法找到指定的key。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis源码分析">
+<meta property="og:url" content="http://example.com/2023/09/20/redis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="naynayniQAQ">
+<meta property="og:description" content="SetCommand 上图就是执行set 命令在RedisServer中调用的一些主要方法。首先进入到SetCommand函数之后，会先进行一些解析参数的流程，把参数存到变量（expire,unit,flags）中。其中flags 使用二进制位数来存储多个参数的标记。然后把这些变量作为SetGenericCommand方法的参数。通过lookupKeyWrite方法找到指定的key。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/setCommand.png">
+<meta property="article:published_time" content="2023-09-20T03:12:14.000Z">
+<meta property="article:modified_time" content="2023-09-20T03:45:32.345Z">
 <meta property="article:author" content="naynayniQAQ">
+<meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/setCommand.png">
 
 
-<link rel="canonical" href="http://example.com/tags/%E5%AD%A6%E4%B9%A0/">
+<link rel="canonical" href="http://example.com/2023/09/20/redis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/学习/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/09/20/redis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/","path":"2023/09/20/redis源码分析/","title":"redis源码分析"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: 学习 | naynayniQAQ</title>
+<title>redis源码分析 | naynayniQAQ</title>
   
 
 
@@ -153,7 +160,7 @@ document.addEventListener('visibilitychange', function () {
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -166,6 +173,7 @@ document.addEventListener('visibilitychange', function () {
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SetCommand"><span class="nav-number">1.</span> <span class="nav-text">SetCommand</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -180,18 +188,18 @@ document.addEventListener('visibilitychange', function () {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -207,231 +215,125 @@ document.addEventListener('visibilitychange', function () {
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">学习
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/20/redis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="naynayniQAQ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="naynayniQAQ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="redis源码分析 | naynayniQAQ">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          redis源码分析
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+
+      <time title="创建时间：2023-09-20 11:12:14 / 修改时间：11:45:32" itemprop="dateCreated datePublished" datetime="2023-09-20T11:12:14+08:00">2023-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>190</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="SetCommand"><a href="#SetCommand" class="headerlink" title="SetCommand"></a>SetCommand</h3><p><img src="/images/setCommand.png" alt="setCommand"></p>
+<p>上图就是执行set 命令在RedisServer中调用的一些主要方法。首先进入到SetCommand函数之后，会先进行一些解析参数的流程，把参数存到变量（expire,unit,flags）中。其中flags 使用二进制位数来存储多个参数的标记。然后把这些变量作为SetGenericCommand方法的参数。通过lookupKeyWrite方法找到指定的key。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-09-18T20:24:03+08:00"
-              content="2023-09-18">
-          09-18
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/09/18/Mysql/" itemprop="url">
-          <span itemprop="name">Mysql</span>
-        </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Redis/" rel="tag"># Redis</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/09/18/Mysql/" rel="prev" title="Mysql">
+                  <i class="fa fa-angle-left"></i> Mysql
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-09-17T10:30:59+08:00"
-              content="2023-09-17">
-          09-17
-        </time>
-      </div>
 
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/09/17/Dubbo/" itemprop="url">
-          <span itemprop="name">Dubbo</span>
-        </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-09-11T23:03:01+08:00"
-              content="2023-09-11">
-          09-11
-        </time>
-      </div>
 
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/09/11/redis/" itemprop="url">
-          <span itemprop="name">Redis</span>
-        </a>
-      </div>
 
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-08-31T13:50:14+08:00"
-              content="2023-08-31">
-          08-31
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/08/31/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" itemprop="url">
-          <span itemprop="name">并发编程</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-08-30T10:03:51+08:00"
-              content="2023-08-30">
-          08-30
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/08/30/Sentinel/" itemprop="url">
-          <span itemprop="name">Sentinel</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-08-29T16:00:38+08:00"
-              content="2023-08-29">
-          08-29
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/08/29/ElasticSearch/" itemprop="url">
-          <span itemprop="name">ElasticSearch</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-08-18T20:29:22+08:00"
-              content="2023-08-18">
-          08-18
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/08/18/Spring/" itemprop="url">
-          <span itemprop="name">Spring</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-08-18T16:08:48+08:00"
-              content="2023-08-18">
-          08-18
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/08/18/Docker/" itemprop="url">
-          <span itemprop="name">Docker</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-02-25T16:23:33+08:00"
-              content="2023-02-25">
-          02-25
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/02/25/IoC/" itemprop="url">
-          <span itemprop="name">IoC</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2023-01-03T14:29:49+08:00"
-              content="2023-01-03">
-          01-03
-        </time>
-      </div>
-
-      <div class="post-title">
-        <a class="post-title-link" href="/2023/01/03/Thread/" itemprop="url">
-          <span itemprop="name">Thread</span>
-        </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
-
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC81ODk0Ni8zNTQwOA=="></div>
 </div>
   </main>
 
